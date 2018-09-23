@@ -4,13 +4,12 @@ import java.io.IOException;
 
 import FileHandler.FileHandler;
 import RLE.RLE;
-import BWT.BWT;
-import Huffman.*;
 
 public class main {
 
 	public static void main(String[] args) {
 		String file = "";
+		String fileOutput = "../resultado.txt";
 
 		final String path = "alice29.txt";
 
@@ -22,10 +21,12 @@ public class main {
 			 * BWT -> RLE -> Huffman
 			 */
 
-			String BWTEncoded = BWT.encode(file);
-			String RLEEncoded = RLE.encode(BWTEncoded);
+			//String BWTEncoded = BWT.encode(file);
+			//String RLEEncoded = RLE.encode(BWTEncoded);
 			
-			System.out.println(RLEEncoded);
+			//System.out.println(RLEEncoded);
+			
+
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {

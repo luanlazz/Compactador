@@ -5,7 +5,8 @@ abstract class HuffmanTree implements Comparable<HuffmanTree> {
     public HuffmanTree(int freq) { frequency = freq; }
  
     // compares on the frequency
-    public int compareTo(HuffmanTree tree) {
+    @Override
+	public int compareTo(HuffmanTree tree) {
         return frequency - tree.frequency;
     }
 }

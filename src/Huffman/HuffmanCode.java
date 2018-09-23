@@ -1,6 +1,6 @@
 package Huffman;
 
-import java.util.*;
+import java.util.PriorityQueue;
 
 public class HuffmanCode {
     // input is an array of frequencies, indexed by character code
