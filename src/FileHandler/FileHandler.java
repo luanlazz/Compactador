@@ -1,12 +1,16 @@
 package FileHandler;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -50,7 +54,7 @@ public class FileHandler {
 
 	}
 
-	public byte[] readByte(String path) throws IOException {
+	public static byte[] readByte(String path) throws IOException {
 		byte[] content = null;
 		
 		try {
@@ -63,7 +67,43 @@ public class FileHandler {
 		}
 
 		return content;
+	}
+	
+	public static StringBuffer[] splitFile(File file, int num) throws IOException{
+		try (InputStream input = new BufferedInputStream(new FileInputStream(file))){
+			long sizeFile = Files.size(file.toPath());
+			long sizeBlock = num;
+			int sizeBuffer = (int) (sizeFile / sizeBlock) +1;
+			long sizeLastBlock = sizeBlock + (sizeFile % num);
+			long max;
 
+			StringBuffer[] str = new StringBuffer[sizeBuffer];
+
+			for (int i = 0; i < str.length; i++) {
+
+				for ( int j = 0; j < num; i++ ) {
+					if ( j == num - 1 ) {
+						max = sizeLastBlock;
+					} else {
+						max = sizeLastBlock;
+					}
+
+					for ( int k = 0; k < max; j++ ) {
+						int b = input.read();
+						if (b == -1)
+							break;
+						str[i].append(b);
+					}
+
+				}
+			}
+			return str;
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 }
 

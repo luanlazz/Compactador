@@ -1,9 +1,14 @@
 package BTW;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class BTW {
 
-	public static String encode(String str) {
-		String source = str+"$";
+	public static String encode(StringBuilder str) {
+
+		StringBuilder source = str.append("$");
 		
 		String[] strs = new String[source.length()];
 		for (int i = 0; i < strs.length; ++i) {
