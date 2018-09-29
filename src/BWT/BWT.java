@@ -7,24 +7,24 @@ import java.io.InputStream;
 public class BWT {
 
 	public static String encode(String str) {
-		String[] strs = new String[str.length()];
 		str += '$';
-	    for (int i = 0; i < strs.length; ++i) {
-	      strs[i] = str.substring(i) + str.substring(0, i);
-	    }
+		
+		String[] strs = new String[str.length()];
+		for (int i = 0; i < strs.length; ++i) {
+			strs[i] = str.substring(i) + str.substring(0, i);
+		}
 
-	    java.util.Arrays.sort(strs);
+		java.util.Arrays.sort(strs);
 
-	    StringBuilder builder = new StringBuilder();
-	    for (int i = 0; i < strs.length; ++i) {
-	      builder.append(strs[i].charAt(strs[i].length() - 1));
-	    }
-	    builder.append("@");
-	    return builder.toString();
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < strs.length; ++i) {
+			builder.append(strs[i].charAt(strs[i].length() - 1));
+		}
+		builder.append("@");
+		return builder.toString();
 	}
 
 	public static String decode(String encodedString) {
-
 		Integer[] indices = new Integer[encodedString.length()];
 		for (int i = 0; i < indices.length; ++i) {
 			indices[i] = i;

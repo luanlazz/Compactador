@@ -9,7 +9,7 @@ class MainRLE {
 		RLE r = new RLE (f);
 		StringBuffer s =	r.lire();
 		r.compression(s);
-		BitInputStream input = new BitInputStream(new FileInputStream("codificadoRLE.txt"));
+		BitInputStream input = new BitInputStream(new FileInputStream("rl.txt"));
 		r.decompression(input);
 	}
 }

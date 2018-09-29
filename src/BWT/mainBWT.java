@@ -41,6 +41,8 @@ public class mainBWT {
 				builder.append(BWT.decode(block[i]));
 			}
 			
+			System.out.println(builder.toString());
+			
 			FileHandler.write(fileOutput2, builder.toString());
 			
 		} catch (IOException e) {
