@@ -1,4 +1,4 @@
-package BTW;
+package BWT;
 
 public class BWTComparator implements java.util.Comparator<Integer> {
     private final String string;

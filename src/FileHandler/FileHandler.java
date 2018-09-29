@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileHandler {
-	public String read(String path) throws IOException {
+	public static String read(String path) throws IOException {
 		BufferedReader buffRead = new BufferedReader(new FileReader(path));
 		String linha = "";
 		String content = "";
@@ -48,7 +48,7 @@ public class FileHandler {
 		DataOutputStream dos = new DataOutputStream (new FileOutputStream (path));
 
 		dos.write(bt);
-		
+
 		dos.flush();
 		dos.close();
 
@@ -56,11 +56,11 @@ public class FileHandler {
 
 	public static byte[] readByte(String path) throws IOException {
 		byte[] content = null;
-		
+
 		try {
 			Path fileLocation = Paths.get(path);
 			content = Files.readAllBytes(fileLocation);
-			
+
 		} catch (IOException e) {
 			//Catch the IO error and print out the message
 			System.out.println("Error message: " + e.getMessage());
@@ -68,36 +68,31 @@ public class FileHandler {
 
 		return content;
 	}
-	
-	public static StringBuffer[] splitFile(File file, int num) throws IOException{
+
+	public static byte[][] splitFile(File file, int num) throws IOException{
 		try (InputStream input = new BufferedInputStream(new FileInputStream(file))){
 			long sizeFile = Files.size(file.toPath());
-			long sizeBlock = num;
-			int sizeBuffer = (int) (sizeFile / sizeBlock) +1;
-			long sizeLastBlock = sizeBlock + (sizeFile % num);
-			long max;
-
-			StringBuffer[] str = new StringBuffer[sizeBuffer];
-
-			for (int i = 0; i < str.length; i++) {
-
-				for ( int j = 0; j < num; i++ ) {
-					if ( j == num - 1 ) {
-						max = sizeLastBlock;
-					} else {
-						max = sizeLastBlock;
-					}
-
-					for ( int k = 0; k < max; j++ ) {
-						int b = input.read();
-						if (b == -1)
-							break;
-						str[i].append(b);
-					}
-
-				}
+			long sizeBlock = 0;
+			if (sizeFile < num) {
+				sizeBlock = sizeFile;
+			} else {
+				sizeBlock= num;
 			}
-			return str;
+			int sizeBuffer = (int) (sizeFile / sizeBlock);
+
+			byte[][] arrayByte = new byte[sizeBuffer][(int)sizeBlock];
+
+			for (int i = 0; i < arrayByte.length; i++) {
+
+				for (int j = 0; j < arrayByte[i].length; j++) {
+					int b = input.read();
+					if (b == -1)
+						break;
+					arrayByte[i][j] = (byte) b;
+				}
+
+			}
+			return arrayByte;
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
@@ -105,5 +100,21 @@ public class FileHandler {
 		}
 		return null;
 	}
+
+	public static byte[] splitInverse(byte[][] arrayByte) throws IOException{
+		byte[] arrayByte2 = new byte[(arrayByte.length*200)];
+		int index = 0;
+
+		for (int i = 0; i < arrayByte.length; i++) {
+
+			for (int j = 0; j < arrayByte[i].length; j++) {
+				arrayByte2[index++] = (arrayByte[i][j]);
+			}
+
+		}
+		return arrayByte2;
+	}
+
+
 }
 

@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 public class RLE{ 
 	
-	public static String encode(String source) {
-		StringBuffer dest = new StringBuffer();
+	public static StringBuilder encode(String source) {
+		StringBuilder dest = new StringBuilder();
 		for (int i = 0; i < source.length(); i++) {
 			int runLength = 1;
 			while (i + 1 < source.length() && source.charAt(i) == source.charAt(i + 1)) {
@@ -16,7 +16,7 @@ public class RLE{
 			dest.append(runLength);
 			dest.append(source.charAt(i));
 		}
-		return dest.toString();
+		return dest;
 	}
 	
 	public static String decode(String source) {
