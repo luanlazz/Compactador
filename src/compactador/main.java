@@ -6,9 +6,9 @@ import java.io.IOException;
 
 import BWT.BWT;
 import FileHandler.FileHandler;
+import Huffman.*;
 import RLE2.RLE;
 import RLE2.BitInputStream;
-
 
 public class main {
 
@@ -63,14 +63,18 @@ public class main {
 			StringBuffer s = r.lire();
 			r.compression(s);
 			
-
-			
-
-
+			// Codifica huffman
+			HuffmanCompress huffman = new HuffmanCompress();
+			huffman.start(new File(fileCompressed), new File(fileCompressed));
 
 			// ##### D E C O D I F I C A ####
+
+			// Decodifica huffman
+			HuffmanDecompress huffmanDec = new HuffmanDecompress();
+			huffmanDec.start(new File(fileCompressed), new File(fileUncompressed));
+
 			// lê o arquivo
-			file = FileHandler.read(fileCompressed);
+			file = FileHandler.read(fileUncompressed);
 
 			// Decodifica RLE
 			BitInputStream input = new BitInputStream(new FileInputStream("rl.txt"));
