@@ -45,7 +45,7 @@ public class main {
 			File inputFile  = new File(fileInput);
 
 			// Divide arquivo em blocos de X caracteres
-			arrayByte = FileHandler.splitFile(inputFile, 20000);
+			arrayByte = FileHandler.splitFile(inputFile, 30000);
 
 			// Codifica o array com os blocos
 			for (int i = 0; i < arrayByte.length; i++) {

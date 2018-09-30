@@ -1,4 +1,4 @@
-package com.lexcerveza;
+package RLE3;
 
 public class RLE {
 
