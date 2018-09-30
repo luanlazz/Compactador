@@ -12,7 +12,7 @@ import FileHandler.FileHandler;
 public class mainBWT {
 
 	public static void main(String[] args) {
-		String fileInput = "teste.txt";
+		String fileInput = "alice29.txt";
 		String fileOutput = "codificadoBWT.txt";
 		String fileOutput2 = "decodificadoBWT.txt";
 		

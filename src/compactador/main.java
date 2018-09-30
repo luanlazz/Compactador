@@ -1,11 +1,14 @@
 package compactador;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import BWT.BWT;
 import FileHandler.FileHandler;
-import RLE.RLE;
+import RLE2.RLE;
+import RLE2.BitInputStream;
+
 
 public class main {
 
@@ -41,7 +44,7 @@ public class main {
 			// Codifica BWT
 			File inputFile  = new File(fileInput);
 
-			// Divide arquivo em blocos de 200 caracteres
+			// Divide arquivo em blocos de X caracteres
 			arrayByte = FileHandler.splitFile(inputFile, 20000);
 
 			// Codifica o array com os blocos
@@ -50,14 +53,18 @@ public class main {
 				encodeBWT = BWT.encode(encodeBWT);
 				builderBWT.append(encodeBWT);
 			}
+			
+			// Grava o arquivo compactado
+			FileHandler.write(fileCompressed, builderBWT.toString());
 
 			// RLE
-			builderRLE = RLE.encode(builderBWT.toString());
+			File f = new File(fileCompressed);
+			RLE r = new RLE(f);
+			StringBuffer s = r.lire();
+			r.compression(s);
+			
 
-			System.out.println(builderRLE.toString());
-
-			// Grava o arquivo compactado
-			FileHandler.write(fileCompressed, builderRLE.toString());
+			
 
 
 
@@ -66,7 +73,8 @@ public class main {
 			file = FileHandler.read(fileCompressed);
 
 			// Decodifica RLE
-			decodeRLE = RLE.decode(file);
+			BitInputStream input = new BitInputStream(new FileInputStream("rl.txt"));
+			r.decompression(input);
 
 			// Decodifica BWT
 			// Separa os blocos novamente para decodificar
