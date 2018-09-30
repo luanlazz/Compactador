@@ -72,13 +72,13 @@ public class FileHandler {
 	public static byte[][] splitFile(File file, int num) throws IOException{
 		try (InputStream input = new BufferedInputStream(new FileInputStream(file))){
 			long sizeFile = Files.size(file.toPath());
-			long sizeBlock = 0;
-			if (sizeFile < num) {
+			long sizeBlock = num;
+			if (sizeFile < num)
 				sizeBlock = sizeFile;
-			} else {
-				sizeBlock= num;
-			}
+			
 			int sizeBuffer = (int) (sizeFile / sizeBlock);
+			if ((sizeBuffer * sizeBlock) < sizeFile)
+				sizeBuffer += 1;
 
 			byte[][] arrayByte = new byte[sizeBuffer][(int)sizeBlock];
 
