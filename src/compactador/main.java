@@ -6,6 +6,7 @@ import java.io.IOException;
 import BWT.BWT;
 import FileHandler.FileHandler;
 import RLE.RLE;
+import Huffman.*;
 
 public class main {
 
@@ -59,11 +60,17 @@ public class main {
 			// Grava o arquivo compactado
 			FileHandler.write(fileCompressed, builderRLE.toString());
 
-
+			// Codifica huffman
+			HuffmanCompress huffman = new HuffmanCompress();
+			huffman.start(new File(fileCompressed), new File(fileCompressed));
 
 			// ##### D E C O D I F I C A ####
+			// Decodifica huffman
+			HuffmanDecompress huffmanDec = new HuffmanDecompress();
+			huffmanDec.start(new File(fileCompressed), new File(fileUncompressed));
+
 			// lê o arquivo
-			file = FileHandler.read(fileCompressed);
+			file = FileHandler.read(fileUncompressed);
 
 			// Decodifica RLE
 			decodeRLE = RLE.decode(file);

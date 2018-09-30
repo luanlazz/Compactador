@@ -28,16 +28,7 @@ import java.io.InputStream;
 public final class HuffmanCompress {
 	
 	// Command line main application function.
-	public static void main(String[] args) throws IOException {
-		// Handle command line arguments
-		/*if (args.length != 2) {
-			System.err.println("Usage: java HuffmanCompress InputFile OutputFile");
-			System.exit(1);
-			return;
-		}*/
-		File inputFile  = new File("alice29.txt");
-		File outputFile = new File("comprimido.txt");
-		
+	public void start(File inputFile, File outputFile) throws IOException {
 		// Read input file once to compute symbol frequencies.
 		// The resulting generated code is optimal for static Huffman coding and also canonical.
 		FrequencyTable freqs = getFrequencies(inputFile);

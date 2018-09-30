@@ -25,16 +25,7 @@ import java.io.OutputStream;
 public final class HuffmanDecompress {
 	
 	// Command line main application function.
-	public static void main(String[] args) throws IOException {
-		// Handle command line arguments
-		/*if (args.length != 2) {
-			System.err.println("Usage: java HuffmanDecompress InputFile OutputFile");
-			System.exit(1);
-			return;
-		}*/
-		File inputFile  = new File("comprimido.txt");
-		File outputFile = new File("descomprimido.txt");
-		
+	public void start(File inputFile, File outputFile) throws IOException {
 		// Perform file decompression
 		try (BitInputStream in = new BitInputStream(new BufferedInputStream(new FileInputStream(inputFile)))) {
 			try (OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile))) {
