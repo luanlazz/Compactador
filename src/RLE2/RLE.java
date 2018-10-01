@@ -11,15 +11,15 @@ public class RLE {
 	}
 
 	// une fnction qui renvoie un string contenant le fichier
-	public StringBuffer lire() throws IOException {
+	public StringBuilder lire() throws IOException {
 		Scanner in = new Scanner(this.f);
-		StringBuffer s = new StringBuffer ("");
+		StringBuilder builder = new StringBuilder();
 		while (in.hasNextLine()) {
-			s.append( in.nextLine());
-			s.append("\n");
+			builder.append( in.nextLine());
+			builder.append("\n");
 		}
 		//	System.out.print(s);
-		return s;
+		return builder;
 	}
 
 	public StringBuffer intToByte(int a){
@@ -73,9 +73,8 @@ public class RLE {
 				x.writeBit(0);
 		}
 	}
-	public void compression( StringBuffer s) throws IOException {
-		BitOutputStream output =  new BitOutputStream(
-				new FileOutputStream("rl.txt"));
+	public void compression( StringBuilder s, String patch) throws IOException {
+		BitOutputStream output =  new BitOutputStream(new FileOutputStream(patch));
 		char tmp = s.charAt(0);
 		int cpt = 1;
 		StringBuffer res;
@@ -155,8 +154,8 @@ public class RLE {
 	public static char intToCharr(int n){
 		return (char) n;
 	}
-	public void decompression (BitInputStream input) throws IOException{
-		StringBuffer t =new StringBuffer("");
+	public void decompression (BitInputStream input, String patch) throws IOException{
+		StringBuffer t = new StringBuffer("");
 		int j;
 		char lettre;
 		while(input.available()!=0){
@@ -170,7 +169,7 @@ public class RLE {
 		String end = t.substring(0,t.length());
 
 		//	System.out.println(end);	
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("rle.txt")));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(patch)));
 		out.write(end);
 		out.close();
 	}

@@ -24,13 +24,14 @@ public class main {
 		byte[][] arrayByte;
 		String encodeBWT;
 		StringBuilder builderBWT = new StringBuilder();
-
+		String fileOutBWT = "outBWT";
+		
 		// RLE
-		String decodeRLE;
 		StringBuilder builderRLE = new StringBuilder();
-
-		// HUFFMAN
-		StringBuilder builderHuffman = new StringBuilder();
+		String fileOutRLE = "outRLE";
+		
+		// Huffman
+		String fileOutHuffman = "outHuffman";
 
 		// RLE
 		try {
@@ -55,32 +56,32 @@ public class main {
 			}
 			
 			// Grava o arquivo compactado
-			FileHandler.write(fileCompressed, builderBWT.toString());
+			FileHandler.write(fileOutBWT, builderBWT.toString());
 
 			// RLE
-			File f = new File(fileCompressed);
-			RLE r = new RLE(f);
-			StringBuffer s = r.lire();
-			r.compression(s);
+			File f = new File(fileOutBWT);
+			RLE rle = new RLE(f);
+			builderRLE = rle.lire();
+			rle.compression(builderRLE, fileOutRLE);
 			
 			// Codifica huffman
 			HuffmanCompress huffman = new HuffmanCompress();
-			huffman.start(new File(fileCompressed), new File(fileCompressed));
+			huffman.start(new File(fileOutRLE), new File(fileCompressed));
 
 			// ##### D E C O D I F I C A ####
 
 			// Decodifica huffman
 			HuffmanDecompress huffmanDec = new HuffmanDecompress();
-			huffmanDec.start(new File(fileCompressed), new File(fileUncompressed));
-
-			// lê o arquivo
-			file = FileHandler.read(fileUncompressed);
+			huffmanDec.start(new File(fileCompressed), new File(fileOutHuffman));
 
 			// Decodifica RLE
-			BitInputStream input = new BitInputStream(new FileInputStream("rl.txt"));
-			r.decompression(input);
+			BitInputStream input = new BitInputStream(new FileInputStream(fileOutHuffman));
+			rle.decompression(input, fileOutRLE);
 
 			// Decodifica BWT
+			// lê o arquivo
+			file = FileHandler.read(fileOutRLE);
+			
 			// Separa os blocos novamente para decodificar
 			String block[] = file.split("(\\@)");
 

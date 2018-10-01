@@ -1,0 +1,3 @@
+https://github.com/nayuki/Reference-Huffman-coding
+https://gist.github.com/skitaoka/9df1cea3d8e9b9cf80af
+https://github.com/mznibe49/rle
