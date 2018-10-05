@@ -21,20 +21,27 @@ public class mainBWT {
 		StringBuilder builder = new StringBuilder();
 		
 		try {
+			
 			File inputFile  = new File(fileInput);
 			
 			arrayByte = FileHandler.splitFile(inputFile, 30000);
 			
 			for (int i = 0; i < arrayByte.length; i++) {
-				encode = new String (arrayByte[i], "ISO-8859-1");
+				encode = new String (arrayByte[i], "UTF-8");
 				encode = BWT.encode(encode);
 				builder.append(encode);
 				
 			}
 			
-			FileHandler.write(fileOutput, builder.toString());
 			
-			String block[] = builder.toString().split("(\\@)");
+			//String file = FileHandler.read("rle.txt");
+			
+			//System.out.println(file);
+			
+			//FileHandler.write(fileOutput, builder.toString());
+			
+			String block[] = builder.toString().split("(\\!\\@\\#\\#\\@\\!)");
+			//String block[] = file.toString().split("(\\!\\@\\#\\#\\@\\!)");
 			
 			builder.delete(0, builder.length());
 			for (int i = 0; i < block.length; i++) {
