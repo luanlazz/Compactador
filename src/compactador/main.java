@@ -28,7 +28,6 @@ public class main {
 		
 		// RLE
 		StringBuffer builderRLE = new StringBuffer();
-		String fileOutRLE = "outRLE.txt";
 		
 		// Huffman
 		String fileOutHuffman = "outHuffman.txt";
@@ -51,12 +50,19 @@ public class main {
 			// Codifica o array com os blocos
 			for (int i = 0; i < arrayByte.length; i++) {
 				encodeBWT = new String (arrayByte[i], "UTF-8");
-				encodeBWT = BWT.encode(encodeBWT);
+				if (i == (arrayByte.length -1)) {
+					encodeBWT = BWT.encode(encodeBWT, true);
+				} else 
+					encodeBWT = BWT.encode(encodeBWT, false);
 				builderBWT.append(encodeBWT);
 			}
 			
 			// Grava o arquivo compactado
-			FileHandler.write(fileOutBWT, builderBWT.toString());
+			encodeBWT = builderBWT.toString();
+			
+			byte[] bt = encodeBWT.getBytes(); 
+
+			FileHandler.writeByte(fileOutBWT, bt);
 
 			// RLE
 			File f = new File(fileOutBWT);
@@ -80,18 +86,21 @@ public class main {
 
 			// Decodifica BWT			
 			// Separa os blocos novamente para decodificar
-			String block[] = buffer.toString().split("\\@");
+			byte[] fileBt = FileHandler.readByte("outRLE.txt");
+			
+			encodeBWT = new String (fileBt, "UTF-8");
 
 			builderBWT.delete(0, builderBWT.length());
+
+			String block[] = buffer.toString().split("\\@");
+
 			// Decodifica por blocos
 			for (int i = 0; i < block.length; i++) {
 				builderBWT.append(BWT.decode(block[i]));
 			}
 
-			System.out.println(builderBWT);
 			// Grava o arquivo descompactado
-			FileHandler.write(fileUncompressed, builderBWT.toString());
-			
+			FileHandler.write(fileUncompressed, builderBWT.toString());			
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

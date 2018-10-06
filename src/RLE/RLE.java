@@ -73,8 +73,8 @@ public class RLE {
 				x.writeBit(0);
 		}
 	}
-	public void compression( StringBuffer s) throws IOException {
-		BitOutputStream output =  new BitOutputStream(new FileOutputStream("rl.txt"));
+	public void compression(StringBuffer s) throws IOException {
+		BitOutputStream output =  new BitOutputStream(new FileOutputStream("outRLE.txt"));
 		char tmp = s.charAt(0);
 		int cpt = 1;
 		StringBuffer res;

@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 public class BWT {
 
-	public static String encode(String str) {
+	public static String encode(String str, boolean last) {
 		str += '$';
 		
 		String[] strs = new String[str.length()];
@@ -20,7 +20,9 @@ public class BWT {
 		for (int i = 0; i < strs.length; ++i) {
 			builder.append(strs[i].charAt(strs[i].length() - 1));
 		}
-		builder.append("@");
+		if (!last) {
+			builder.append("@");
+		}
 		return builder.toString();
 	}
 
