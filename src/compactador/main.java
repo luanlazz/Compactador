@@ -7,8 +7,8 @@ import java.io.IOException;
 import BWT.BWT;
 import FileHandler.FileHandler;
 import Huffman.*;
-import RLE2.RLE;
-import RLE2.BitInputStream;
+import RLE.*;
+import RLE.BitInputStream;
 
 public class main {
 
@@ -24,13 +24,14 @@ public class main {
 		byte[][] arrayByte;
 		String encodeBWT;
 		StringBuilder builderBWT = new StringBuilder();
-
+		String fileOutBWT = "outBWT.txt";
+		
 		// RLE
-		String decodeRLE;
-		StringBuilder builderRLE = new StringBuilder();
-
-		// HUFFMAN
-		StringBuilder builderHuffman = new StringBuilder();
+		StringBuffer builderRLE = new StringBuffer();
+		String fileOutRLE = "outRLE.txt";
+		
+		// Huffman
+		String fileOutHuffman = "outHuffman.txt";
 
 		// RLE
 		try {
@@ -40,49 +41,46 @@ public class main {
 			 */
 
 			// ##### C O D I F I C A #####
-
+			
 			// Codifica BWT
 			File inputFile  = new File(fileInput);
 
 			// Divide arquivo em blocos de X caracteres
-			arrayByte = FileHandler.splitFile(inputFile, 20000);
+			arrayByte = FileHandler.splitFile(inputFile, 30000);
 
 			// Codifica o array com os blocos
 			for (int i = 0; i < arrayByte.length; i++) {
-				encodeBWT = new String (arrayByte[i], "ISO-8859-1");
+				encodeBWT = new String (arrayByte[i], "UTF-8");
 				encodeBWT = BWT.encode(encodeBWT);
 				builderBWT.append(encodeBWT);
 			}
 			
 			// Grava o arquivo compactado
-			FileHandler.write(fileCompressed, builderBWT.toString());
+			FileHandler.write(fileOutBWT, builderBWT.toString());
 
 			// RLE
-			File f = new File(fileCompressed);
-			RLE r = new RLE(f);
-			StringBuffer s = r.lire();
-			r.compression(s);
+			File f = new File(fileOutBWT);
+			RLE rle = new RLE(f);
+			builderRLE = rle.lire();
+			rle.compression(builderRLE);
 			
 			// Codifica huffman
 			HuffmanCompress huffman = new HuffmanCompress();
-			huffman.start(new File(fileCompressed), new File(fileCompressed));
+			huffman.start(new File("rl.txt"), new File(fileCompressed));
 
 			// ##### D E C O D I F I C A ####
 
 			// Decodifica huffman
 			HuffmanDecompress huffmanDec = new HuffmanDecompress();
-			huffmanDec.start(new File(fileCompressed), new File(fileUncompressed));
-
-			// lê o arquivo
-			file = FileHandler.read(fileUncompressed);
-
+			huffmanDec.start(new File(fileCompressed), new File(fileOutHuffman));
+			
 			// Decodifica RLE
-			BitInputStream input = new BitInputStream(new FileInputStream("rl.txt"));
-			r.decompression(input);
+			BitInputStream input = new BitInputStream(new FileInputStream(fileOutHuffman));
+			StringBuilder buffer = rle.decompression(input);
 
-			// Decodifica BWT
+			// Decodifica BWT			
 			// Separa os blocos novamente para decodificar
-			String block[] = file.split("(\\@)");
+			String block[] = buffer.toString().split("\\@");
 
 			builderBWT.delete(0, builderBWT.length());
 			// Decodifica por blocos
@@ -90,9 +88,10 @@ public class main {
 				builderBWT.append(BWT.decode(block[i]));
 			}
 
+			System.out.println(builderBWT);
 			// Grava o arquivo descompactado
 			FileHandler.write(fileUncompressed, builderBWT.toString());
-
+			
 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
