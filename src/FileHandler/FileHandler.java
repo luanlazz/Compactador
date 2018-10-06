@@ -101,20 +101,20 @@ public class FileHandler {
 		return null;
 	}
 
-	public static byte[] splitInverse(byte[][] arrayByte) throws IOException{
-		byte[] arrayByte2 = new byte[(arrayByte.length*200)];
-		int index = 0;
-
-		for (int i = 0; i < arrayByte.length; i++) {
-
-			for (int j = 0; j < arrayByte[i].length; j++) {
-				arrayByte2[index++] = (arrayByte[i][j]);
+	public static boolean typeFile(String content) throws IOException{
+		boolean value = false;
+		
+		for (int i = 0; i < content.length(); i++) {
+			if (content.substring(i, i+1).equals("@")) {
+				value = true;
+				break;
 			}
-
 		}
-		return arrayByte2;
+		
+		return value;
 	}
 
+	
 
 }
 

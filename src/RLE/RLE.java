@@ -74,7 +74,7 @@ public class RLE {
 		}
 	}
 	public void compression(StringBuffer s) throws IOException {
-		BitOutputStream output =  new BitOutputStream(new FileOutputStream("outRLE.txt"));
+		BitOutputStream output =  new BitOutputStream(new FileOutputStream("compRLE.txt"));
 		char tmp = s.charAt(0);
 		int cpt = 1;
 		StringBuffer res;
@@ -155,7 +155,7 @@ public class RLE {
 		return (char) n;
 	}
 	public StringBuilder decompression (BitInputStream input) throws IOException{
-		StringBuilder t =new StringBuilder("");
+		StringBuilder t = new StringBuilder();
 		int j;
 		char lettre;
 		while(input.available()!=0){
@@ -168,7 +168,7 @@ public class RLE {
 
 		String end = t.substring(0,t.length());
 	
-		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("rle.txt")));
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("uncompRLE.txt")));
 		out.write(end);
 		out.close();
 		return t;

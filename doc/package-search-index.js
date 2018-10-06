@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"BWT"},{"l":"compactador"},{"l":"FileHandler"},{"l":"Huffman"},{"l":"RLE"}]
